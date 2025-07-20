@@ -1,5 +1,4 @@
 /* eslint-disable no-case-declarations */
-/*global process */
 
 const mongoose = require('mongoose')
 

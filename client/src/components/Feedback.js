@@ -1,13 +1,23 @@
-const Feedback = ({ feedback: {message, type} }) => {
-    if (!message) {
-        return null
-    }
+/* eslint-disable @stylistic/js/linebreak-style */
+import React from "react";
 
-    return (
-        <div className={type === 'success' ? 'success' : 'error'}>
-            {message}
-        </div>
-    )
-}
+const Feedback = ({ feedback: {message, type} }) => {
+  if (!message) {
+    return null;
+  }
+
+  return (
+    <div className={type === "success" ? "success" : "error"}>
+      {message}
+    </div>
+  );
+};
+
+Feedback.propTypes = {
+  feedback: {
+    message: String,
+    type: String,
+  }
+};
 
 export default Feedback;

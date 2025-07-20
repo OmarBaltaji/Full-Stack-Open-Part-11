@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^13.5.0",
     "axios": "^1.9.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -17,7 +14,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "json-server -p3001 --watch db.json"
+    "server": "json-server -p3001 --watch db.json",
+    "lint": "eslint ."
   },
   "eslintConfig": {
     "extends": [
@@ -38,11 +36,25 @@
     ]
   },
   "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "@stylistic/eslint-plugin-js": "^4.4.1",
     "@tailwindcss/forms": "^0.5.10",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "autoprefixer": "^10.4.21",
+    "eslint": "^9.31.0",
+    "eslint-plugin-jest": "^29.0.1",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.3.0",
+    "jest": "^30.0.4",
+    "jest-environment-jsdom": "^30.0.4",
     "json-server": "^0.17.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
   },
   "proxy": "http://localhost:3001"
 }

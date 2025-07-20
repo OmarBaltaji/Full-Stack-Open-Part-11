@@ -1,21 +1,23 @@
-import { useState, useEffect } from 'react';
-import Filter from './components/Filter';
-import Persons from './components/Persons';
-import PersonForm from './components/PersonForm';
-import personsService from './services/persons';
-import Feedback from './components/Feedback';
-import { notify } from './utils/notification';
-import './index.css'
+/* eslint-disable @stylistic/js/linebreak-style */
+import React from "react";
+import { useState, useEffect } from "react";
+import Filter from "./components/Filter";
+import Persons from "./components/Persons";
+import PersonForm from "./components/PersonForm";
+import personsService from "./services/persons";
+import Feedback from "./components/Feedback";
+import { notify } from "./utils/notification";
+import "./index.css";
 
 function App() {
   const [persons, setPersons] = useState([]);
   const [filteredPersons, setFilteredPersons] = useState([]);
-  const [newName, setNewName] = useState('');
-  const [newNumber, setNewNumber] = useState('');
-  const [filter, setFilter] = useState('');
+  const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
+  const [filter, setFilter] = useState("");
   const [feedback, setFeedback] = useState({
-    'message': null,
-    'type': '',
+    "message": null,
+    "type": "",
   });
 
   useEffect(() => {
@@ -29,9 +31,9 @@ function App() {
   }, [filter, persons]);
 
   const clearForm = () => {
-    setNewName('');
-    setNewNumber('');
-  }
+    setNewName("");
+    setNewNumber("");
+  };
 
   const onAddNew = (event) => {
     event.preventDefault();
@@ -42,45 +44,45 @@ function App() {
     }
 
     personsService.create({ name: newName, number: newNumber })
-    .then((createdPerson) => {
-      setPersons(persons.concat(createdPerson));
-      notify(`Added ${createdPerson.name}`, setFeedback);
-      clearForm();
-    })
-    .catch(() => {
-      notify(`Error while adding new person`, setFeedback, 'error');
-    })
-  }
+      .then((createdPerson) => {
+        setPersons(persons.concat(createdPerson));
+        notify(`Added ${createdPerson.name}`, setFeedback);
+        clearForm();
+      })
+      .catch(() => {
+        notify("Error while adding new person", setFeedback, "error");
+      });
+  };
 
   const updatePerson = (person) => {
     const confirm = window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`);
     if (confirm) {
       personsService.update({ ...person, number: newNumber })
-      .then((updatedPerson) => {
-        setPersons(persons.map((p) => p.id === updatedPerson.id ? updatedPerson : p));
-        notify(`Phone number of ${updatedPerson.name} updated!`, setFeedback);
-        clearForm();
-      })
-      .catch((error) => {
-        console.error(error);
-        notify(`Information of ${person.name} has already been removed from server`, setFeedback, 'error');
-        setPersons(persons.filter(p => p.name !== person.name))
-      })
+        .then((updatedPerson) => {
+          setPersons(persons.map((p) => p.id === updatedPerson.id ? updatedPerson : p));
+          notify(`Phone number of ${updatedPerson.name} updated!`, setFeedback);
+          clearForm();
+        })
+        .catch((error) => {
+          console.error(error);
+          notify(`Information of ${person.name} has already been removed from server`, setFeedback, "error");
+          setPersons(persons.filter(p => p.name !== person.name));
+        });
     }
-  }
+  };
 
   const handleOnChange = (value, field) => {
     switch(field) {
-      case 'name':
-        setNewName(value);
-        break;
-      case 'number':
-        setNewNumber(value);
-        break;
-      default:
-        break;
+    case "name":
+      setNewName(value);
+      break;
+    case "number":
+      setNewNumber(value);
+      break;
+    default:
+      break;
     }
-  }
+  };
 
   const onRemove = (person) => {
     const confirm = window.confirm(`Delete ${person.name} ?`);
@@ -90,7 +92,7 @@ function App() {
       });
       notify(`Deleted ${person.name}`, setFeedback);
     }
-  } 
+  }; 
 
   return (
     <div className='ml-10 mt-5'>

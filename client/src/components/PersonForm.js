@@ -1,11 +1,14 @@
+/* eslint-disable @stylistic/js/linebreak-style */
+import React from "react";
+
 const PersonForm = ({ onAddNew, newName, newNumber, onChange }) =>  (
-    <form onSubmit={onAddNew}>
+  <form onSubmit={onAddNew}>
     <div className="mb-3">
       <label className="font-semibold mr-3">Name</label> 
       <input 
         className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
         value={newName}
-        onChange={({ target: { value } }) => onChange(value, 'name')} 
+        onChange={({ target: { value } }) => onChange(value, "name")} 
       />
     </div>
     <div>
@@ -13,7 +16,7 @@ const PersonForm = ({ onAddNew, newName, newNumber, onChange }) =>  (
       <input 
         className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
         value={newNumber}
-        onChange={({ target: { value } }) => onChange(value, 'number')} 
+        onChange={({ target: { value } }) => onChange(value, "number")} 
       />
     </div>
     <div className="my-3">
@@ -21,5 +24,12 @@ const PersonForm = ({ onAddNew, newName, newNumber, onChange }) =>  (
     </div>
   </form>
 );
+
+PersonForm.propTypes = {
+  onAddNew: Function,
+  newName: String,
+  newNumber: String,
+  onChange: Function
+};
 
 export default PersonForm;
