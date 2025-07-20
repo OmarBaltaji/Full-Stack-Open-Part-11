@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/js/linebreak-style */
 import React from "react";
 import { useState, useEffect } from "react";
 import Filter from "./components/Filter";

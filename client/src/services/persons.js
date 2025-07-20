@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/js/linebreak-style */
 import axios from "axios";
 const baseUrl = "/api/persons";
 
