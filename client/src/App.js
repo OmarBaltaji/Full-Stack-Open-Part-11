@@ -1,99 +1,108 @@
-import { useState, useEffect, useRef } from 'react'
-import Blog from './components/Blog'
-import blogService from './services/blogs'
-import LoginForm from './components/LoginForm'
-import BlogForm from './components/BlogForm'
-import Notification from './components/Notification'
+import { useState, useEffect } from 'react';
+import Filter from './components/Filter';
+import Persons from './components/Persons';
+import PersonForm from './components/PersonForm';
+import personsService from './services/persons';
+import Feedback from './components/Feedback';
+import { notify } from './utils/notification';
 import './index.css'
-import Togglable from './components/Togglable'
 
-const App = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [user, setUser] = useState(null);
-  const [feedbackMessage, setFeedbackMessage] = useState(null);
-  const [feedbackClass, setFeedbackClass] = useState(null);
-  const blogFormRef = useRef();
-
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs.sort((a, b) => b.likes - a.likes) )
-    )
-  }, [])
+function App() {
+  const [persons, setPersons] = useState([]);
+  const [filteredPersons, setFilteredPersons] = useState([]);
+  const [newName, setNewName] = useState('');
+  const [newNumber, setNewNumber] = useState('');
+  const [filter, setFilter] = useState('');
+  const [feedback, setFeedback] = useState({
+    'message': null,
+    'type': '',
+  });
 
   useEffect(() => {
-    const loggedUserInfo = localStorage.getItem('loggedUserInfo');
-
-    if (loggedUserInfo) {
-      const userInfo = JSON.parse(loggedUserInfo);
-      setUser(userInfo);
-      blogService.setToken(userInfo.token);
-    }
-  }, [])
-
-  const postLogin = (user) => {
-    setUser(user);
-  }
-
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem('loggedUserInfo');
-  }
-
-  const postSubmission = (newBlog, message, className) => {
-    if (newBlog) {
-      newBlog = { ...newBlog, user };
-      setBlogs(oldBlogs => [...oldBlogs, newBlog]);
-    }
-    blogFormRef.current.toggleVisibility();
-    setFeedbackMessage(message);
-    setFeedbackClass(className);
-    setTimeout(() => {
-      setFeedbackMessage(null);
-      setFeedbackClass(null);
-    }, 5000);
-  }
-
-  const onLikeClicked = async (blog) => {
-    const updatedBlog = await blogService.update(blog);
-    setBlogs((oldBlogs) => {
-      return oldBlogs.map(blog => {
-        if (blog.id === updatedBlog.id) {
-          return updatedBlog;
-        }
-        return blog;
-      });
+    personsService.getAll().then(personsList => {
+      setPersons(personsList);
     });
+  }, []);
+
+  useEffect(() => {
+    setFilteredPersons(filter.length === 0 ? persons : persons.filter(p => p.name.toLowerCase().includes(filter.trim().toLowerCase())));
+  }, [filter, persons]);
+
+  const clearForm = () => {
+    setNewName('');
+    setNewNumber('');
   }
 
-  const onDeleteBlog = async (id) => {
-    if (window.confirm('Are you sure you want to delete this blog?')) {
-      await blogService.deleteBlog(id);
-      setBlogs((oldBlogs) => oldBlogs.filter(blog => blog.id !== id));
+  const onAddNew = (event) => {
+    event.preventDefault();
+    const existingPerson = persons.find(person => person.name.toLowerCase() === newName.toLowerCase().trim());
+    if (existingPerson) {
+      updatePerson(existingPerson);
+      return;
+    }
+
+    personsService.create({ name: newName, number: newNumber })
+    .then((createdPerson) => {
+      setPersons(persons.concat(createdPerson));
+      notify(`Added ${createdPerson.name}`, setFeedback);
+      clearForm();
+    })
+    .catch(() => {
+      notify(`Error while adding new person`, setFeedback, 'error');
+    })
+  }
+
+  const updatePerson = (person) => {
+    const confirm = window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`);
+    if (confirm) {
+      personsService.update({ ...person, number: newNumber })
+      .then((updatedPerson) => {
+        setPersons(persons.map((p) => p.id === updatedPerson.id ? updatedPerson : p));
+        notify(`Phone number of ${updatedPerson.name} updated!`, setFeedback);
+        clearForm();
+      })
+      .catch((error) => {
+        console.error(error);
+        notify(`Information of ${person.name} has already been removed from server`, setFeedback, 'error');
+        setPersons(persons.filter(p => p.name !== person.name))
+      })
     }
   }
+
+  const handleOnChange = (value, field) => {
+    switch(field) {
+      case 'name':
+        setNewName(value);
+        break;
+      case 'number':
+        setNewNumber(value);
+        break;
+      default:
+        break;
+    }
+  }
+
+  const onRemove = (person) => {
+    const confirm = window.confirm(`Delete ${person.name} ?`);
+    if (confirm) {
+      personsService.deletePerson(person.id).then(() => {
+        setPersons(persons.filter(p => p.id !== person.id));
+      });
+      notify(`Deleted ${person.name}`, setFeedback);
+    }
+  } 
 
   return (
-    <div>
-      {!user && <LoginForm postLogin={postLogin} />}
-      {user &&
-        <>
-          <button onClick={handleLogout}>Logout</button>
-          <h2>blogs</h2>
-          <Notification message={feedbackMessage} className={feedbackClass} />
-          <p><strong>Logged in as {user.name}</strong></p>
-          <Togglable buttonLabel="Add new blog" ref={blogFormRef}>
-            <BlogForm postSubmission={postSubmission} />
-          </Togglable>
-          <br />
-          <ul>
-            {blogs.map(blog =>
-              <Blog key={blog.id} blog={blog} onLikeClicked={onLikeClicked} onDeleteBlog={onDeleteBlog} user={user} />
-            )}
-          </ul>
-        </>
-      }
+    <div className='ml-10 mt-5'>
+      <h1 className='text-xl font-bold mb-5'>Phonebook</h1>
+      <Feedback feedback={feedback} />
+      <Filter filter={filter} setFilter={setFilter} />
+      <h2 className='text-lg font-bold my-5'>Add a new</h2>
+      <PersonForm onAddNew={onAddNew} newName={newName} newNumber={newNumber} onChange={handleOnChange} />
+      <h2 className='text-lg font-bold mt-5 mb-3'>Numbers</h2>
+      <Persons persons={filteredPersons} onRemove={onRemove} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
