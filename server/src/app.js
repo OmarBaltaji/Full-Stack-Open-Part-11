@@ -17,11 +17,6 @@ app.use('/', express.static(path.join(__dirname, '../../client/build')));
 
 app.use('/api/persons', personsRouter)
 
-// Serve React app for any other route
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../../client/build/index.html'));
-// });
-
 app.use(unknownEndpoint)
 app.use(errorHandler)
 
