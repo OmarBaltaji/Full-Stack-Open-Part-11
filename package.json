@@ -13,7 +13,8 @@
     "build": "npm run build --workspace=client",
     "start": "npm run start --workspace=server",
     "dependencies:install": "npm install && npm install --workspace=client && npm install --workspace=server",
-    "eslint": "npm run lint --workspace=server && npm run lint --workspace=client" 
+    "eslint": "concurrently \"npm run lint --workspace=server\" \"npm run lint --workspace=client\"",
+    "test": "concurrently \"npm run test --workspace=server\" \"npm run test --workspace=client\"" 
   },
   "devDependencies": {
     "concurrently": "^9.2.0"
