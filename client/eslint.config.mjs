@@ -20,6 +20,9 @@ export default defineConfig([
     },
   },
   {
-    ignores: ["tailwind.config.js", "build"]
+    ignores: ["tailwind.config.js", "build"],
+    env: {
+      "jest/globals": true,
+    }
   }
 ]);

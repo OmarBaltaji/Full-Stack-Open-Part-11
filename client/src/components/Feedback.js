@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 
 const Feedback = ({ feedback: {message, type} }) => {
@@ -10,13 +11,6 @@ const Feedback = ({ feedback: {message, type} }) => {
       {message}
     </div>
   );
-};
-
-Feedback.propTypes = {
-  feedback: {
-    message: String,
-    type: String,
-  }
 };
 
 export default Feedback;
