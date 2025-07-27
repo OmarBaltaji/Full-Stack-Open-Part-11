@@ -18,7 +18,7 @@ app.use('/', express.static(path.join(__dirname, '../../client/build')))
 app.use('/api/persons', personsRouter)
 
 app.use('/health', (req, res) => {
-  res.send('okay');
+  res.send('okay')
 })
 
 app.use(unknownEndpoint)
