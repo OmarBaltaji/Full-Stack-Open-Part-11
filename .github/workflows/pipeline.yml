@@ -20,7 +20,7 @@ jobs:
       - name: Run Tests
         run: npm run test
         env:
-          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          MONGODB_URI_TEST: ${{ secrets.MONGODB_URI_TEST }}
           PORT: 3001
       - name: Build the application
         run: npm run build
