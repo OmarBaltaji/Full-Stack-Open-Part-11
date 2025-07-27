@@ -82,7 +82,7 @@ const PersonForm = ({ persons, setPersons, setFeedback }) => {
         />
       </div>
       <div className="my-3">
-        <button className="rounded bg-slate-500 hover:bg-slate-700 text-white px-4 py-2" type='submit'>Add</button>
+        <button id='submit-person' className="rounded bg-slate-500 hover:bg-slate-700 text-white px-4 py-2" type='submit'>Add</button>
       </div>
     </form>
   );

@@ -14,9 +14,12 @@
     "start": "npm run start --workspace=server",
     "dependencies:install": "npm install && npm install --workspace=client && npm install --workspace=server",
     "eslint": "concurrently \"npm run lint --workspace=server\" \"npm run lint --workspace=client\"",
-    "test": "concurrently \"npm run test --workspace=server\" \"npm run test --workspace=client\"" 
+    "test": "concurrently \"npm run test --workspace=server\" \"npm run test --workspace=client\"",
+    "cypress:open": "cypress open",
+    "test:e2e": "cypress run"
   },
   "devDependencies": {
-    "concurrently": "^9.2.0"
+    "concurrently": "^9.2.0",
+    "cypress": "^14.5.3"
   }
 }

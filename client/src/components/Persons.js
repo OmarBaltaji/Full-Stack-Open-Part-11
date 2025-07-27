@@ -22,7 +22,7 @@ const Persons = ({ persons, setPersons, setFeedback }) => {
             <span className="mr-3">
               {person.name} / {person.number}
             </span>
-            <button className="rounded-md bg-red-600 hover:bg-red-700 text-white px-4 py-2" onClick={() => onRemove(person)}>Delete</button>
+            <button className="delete-btn rounded-md bg-red-600 hover:bg-red-700 text-white px-4 py-2" onClick={() => onRemove(person)}>Delete</button>
           </div>
         ))
       }
