@@ -2,26 +2,25 @@ import React from "react";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Persons from "../components/Persons";
-import userEvent from "@testing-library/user-event";
 import personsService from "../services/persons";
 
-jest.mock('../services/persons.js');
+jest.mock("../services/persons.js");
 
 const persons = [
   {
-    id: '1',
-    name: 'test user 1',
-    number: '213-120391'
+    id: "1",
+    name: "test user 1",
+    number: "213-120391"
   },
   {
-    id: '2',
-    name: 'test user 2',
-    number: '213-125511'
+    id: "2",
+    name: "test user 2",
+    number: "213-125511"
   },
   {
-    id: '3',
-    name: 'test user 3',
-    number: '213-120645'
+    id: "3",
+    name: "test user 3",
+    number: "213-120645"
   },
 ];
 
@@ -35,10 +34,10 @@ describe("<Persons />", () => {
     const setFeedback = jest.fn();
     const { container } = render(<Persons persons={persons} setPersons={setPersons} setFeedback={setFeedback} />);
 
-    const element = container.querySelector('.persons-container');
+    const element = container.querySelector(".persons-container");
     expect(element).toBeDefined();  
 
-    const personsDivs = container.querySelectorAll('.person-wrapper');
+    const personsDivs = container.querySelectorAll(".person-wrapper");
     expect(personsDivs.length).toBe(persons.length);
   });
 
@@ -62,7 +61,7 @@ describe("<Persons />", () => {
 
     render(<Persons persons={persons} setPersons={setPersons} setFeedback={setFeedback} />);
 
-    const deleteButton = screen.getAllByText('Delete')[0];
+    const deleteButton = screen.getAllByText("Delete")[0];
     fireEvent.click(deleteButton);
 
     await waitFor(() => {
@@ -81,7 +80,7 @@ describe("<Persons />", () => {
 
     render(<Persons persons={persons} setPersons={setPersons} setFeedback={setFeedback} />);
 
-    const deleteButton = screen.getAllByText('Delete')[0];
+    const deleteButton = screen.getAllByText("Delete")[0];
     fireEvent.click(deleteButton);
 
     await waitFor(() => {
@@ -98,7 +97,7 @@ describe("<Persons />", () => {
     
     const { container } = render(<Persons persons={[]} setPersons={setPersons} setFeedback={setFeedback} />);
 
-    const personsItems = container.querySelectorAll('.person-wrapper');
+    const personsItems = container.querySelectorAll(".person-wrapper");
     expect(personsItems.length).toBe(0);
   });
 });
