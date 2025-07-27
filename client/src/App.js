@@ -23,7 +23,7 @@ function App() {
 
   return (
     <div className='ml-10 mt-5'>
-      <h1 className='text-xl font-bold mb-5'>Phonebook</h1>
+      <h1 className='text-xl font-bold mb-5'>Phonebook!</h1>
       <Feedback feedback={feedback} />
       <Filter persons={persons} setFilteredPersons={setFilteredPersons} />
       <h2 className='text-lg font-bold my-5'>Add a new</h2>
