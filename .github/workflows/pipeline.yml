@@ -19,6 +19,9 @@ jobs:
         run: npm run eslint
       - name: Run Tests
         run: npm run test
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          PORT: 3001
       - name: Build the application
         run: npm run build
       - name: Run end-to-end Tests
