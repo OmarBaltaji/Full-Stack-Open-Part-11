@@ -6,7 +6,7 @@ const Filter = ({ persons, setFilteredPersons }) => {
     
   useEffect(() => {
     setFilteredPersons(filter.length === 0 ? persons : persons.filter(p => p.name.toLowerCase().includes(filter.trim().toLowerCase())));
-  }, [filter, persons]);
+  }, [filter, persons, setFilteredPersons]);
 
   return (
     <div>
